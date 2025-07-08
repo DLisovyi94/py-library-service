@@ -6,8 +6,8 @@ class Book(models.Model):
         HARD = "HARD", "Hard"
         SOFT = "SOFT", "Soft"
 
-    Title = models.CharField(max_length=255)
-    Author = models.CharField(max_length=255)
+    title = models.CharField(max_length=255)
+    author = models.CharField(max_length=255)
     cover = models.CharField(
         max_length=10,
         choices=CoverType.choices,
@@ -23,7 +23,7 @@ class Book(models.Model):
 
 
     def __str__(self):
-        return f"{self.Title} by {self.Author}"
+        return f"{self.title} by {self.author}"
 
 
 # Create your models here.

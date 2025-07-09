@@ -1,3 +1,4 @@
+from drf_spectacular.utils import extend_schema_view, extend_schema
 from rest_framework import viewsets, permissions
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -12,6 +13,11 @@ from rest_framework.permissions import IsAuthenticated
 from borrowings.filters import BorrowingFilter
 
 
+@extend_schema_view(
+    list=extend_schema(description="Get borrowings (admin sees all, user sees own)"),
+    retrieve=extend_schema(description="Get details of a specific borrowing"),
+    create=extend_schema(description="Create new borrowing. Decreases book inventory."),
+)
 class BorrowingViewSet(viewsets.ModelViewSet):
     queryset = Borrowing.objects.select_related("book", "user")
     permission_classes = [IsAuthenticated]
@@ -37,6 +43,7 @@ class BorrowingViewSet(viewsets.ModelViewSet):
 
         return queryset
 
+    @extend_schema(description="Mark a borrowing as returned. Increases book inventory.")
     @action(methods=["post"], detail=True)
     def return_book(self, request, pk=None):
         borrowing = self.get_object()

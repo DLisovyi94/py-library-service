@@ -1,3 +1,4 @@
+from drf_spectacular.utils import extend_schema_view, extend_schema
 from rest_framework import viewsets
 from rest_framework.permissions import AllowAny, IsAdminUser
 
@@ -7,6 +8,14 @@ from books.serializers import (BookSerializer,
                                BookDetailSerializer)
 
 
+@extend_schema_view(
+    list=extend_schema(description="List all books"),
+    retrieve=extend_schema(description="Retrieve book details"),
+    create=extend_schema(description="Create a new book"),
+    update=extend_schema(description="Update book info"),
+    partial_update=extend_schema(description="Partially update book info"),
+    destroy=extend_schema(description="Delete a book"),
+)
 class BookViewSet(viewsets.ModelViewSet):
     queryset = Book.objects.all()
 

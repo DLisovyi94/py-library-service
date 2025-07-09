@@ -7,6 +7,7 @@ Users can browse books, borrow them if available, and return them.
 Admins can manage books and monitor borrowings. JWT-based authentication ensures secure access.
 
 Features
+
 🔐 JWT authentication for secure API access
 
 📘 API documentation via:
@@ -32,6 +33,7 @@ user_id=<id> filter available for admin users
 👤 Users can view only their own borrowings (unless admin)
 
 Technologies Used
+
 Backend: Django 5.x
 
 Database: SQLite (or PostgreSQL)
@@ -43,6 +45,7 @@ Testing: unittest (TestCase) + coverage.py
 Filtering: django-filter
 
 API Documentation
+
 Swagger UI: http://localhost:8000/api/schema/swagger-ui/
 
 ReDoc: http://localhost:8000/api/schema/redoc/

@@ -1,4 +1,9 @@
 from rest_framework import viewsets, permissions
+from rest_framework.decorators import action
+from rest_framework.response import Response
+from rest_framework import status
+from django.utils.timezone import now
+
 from borrowings.models import Borrowing
 from borrowings.serializers import BorrowingListSerializer, BorrowingCreateSerializer
 from rest_framework.filters import OrderingFilter
@@ -31,3 +36,17 @@ class BorrowingViewSet(viewsets.ModelViewSet):
             )
 
         return queryset
+
+    @action(methods=["post"], detail=True)
+    def return_book(self, request, pk=None):
+        borrowing = self.get_object()
+
+        if borrowing.actual_return_date:
+            return Response({"detail": "Book already returned."}, status=400)
+
+        borrowing.actual_return_date = now().date()
+        borrowing.book.inventory += 1
+        borrowing.book.save()
+        borrowing.save()
+
+        return Response({"detail": "Book successfully returned."}, status=status.HTTP_200_OK)

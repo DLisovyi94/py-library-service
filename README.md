@@ -69,7 +69,7 @@ cd train-station-api
 
 python -m venv .venv
 source .venv/bin/activate  # For Linux/macOS
-# or
+or
 .venv\Scripts\activate  # For Windows
 
 3. Install dependencies

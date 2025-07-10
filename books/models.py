@@ -13,14 +13,10 @@ class Book(models.Model):
         choices=CoverType.choices,
     )
     inventory = models.PositiveIntegerField()
-    daily_fee = models.DecimalField(
-        max_digits=5,
-        decimal_places=2
-    )
+    daily_fee = models.DecimalField(max_digits=5, decimal_places=2)
 
     class Meta:
         verbose_name_plural = "Books"
-
 
     def __str__(self):
         return f"{self.title} by {self.author}"

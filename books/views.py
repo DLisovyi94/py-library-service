@@ -3,9 +3,7 @@ from rest_framework import viewsets
 from rest_framework.permissions import AllowAny, IsAdminUser
 
 from books.models import Book
-from books.serializers import (BookSerializer,
-                               BookListSerializer,
-                               BookDetailSerializer)
+from books.serializers import BookSerializer, BookListSerializer, BookDetailSerializer
 
 
 @extend_schema_view(
@@ -30,5 +28,6 @@ class BookViewSet(viewsets.ModelViewSet):
         if self.action in ["list", "retrieve"]:
             return [AllowAny()]
         return [IsAdminUser()]
+
 
 # Create your views here.

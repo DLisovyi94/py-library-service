@@ -37,13 +37,13 @@ class BorrowingViewSet(viewsets.ModelViewSet):
         if not user.is_staff:
             queryset = queryset.filter(user=user)
         elif user.is_staff and "user_id" in self.request.query_params:
-            queryset = queryset.filter(
-                user__id=self.request.query_params["user_id"]
-            )
+            queryset = queryset.filter(user__id=self.request.query_params["user_id"])
 
         return queryset
 
-    @extend_schema(description="Mark a borrowing as returned. Increases book inventory.")
+    @extend_schema(
+        description="Mark a borrowing as returned. Increases book inventory."
+    )
     @action(methods=["post"], detail=True)
     def return_book(self, request, pk=None):
         borrowing = self.get_object()
@@ -56,4 +56,6 @@ class BorrowingViewSet(viewsets.ModelViewSet):
         borrowing.book.save()
         borrowing.save()
 
-        return Response({"detail": "Book successfully returned."}, status=status.HTTP_200_OK)
+        return Response(
+            {"detail": "Book successfully returned."}, status=status.HTTP_200_OK
+        )

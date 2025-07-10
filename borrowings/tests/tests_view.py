@@ -23,9 +23,7 @@ def return_url(borrowing_id):
 class BorrowingViewSetTests(TestCase):
     def setUp(self):
         self.client = APIClient()
-        self.user = get_user_model().objects.create_user(
-            "user@test.com", "pass123"
-        )
+        self.user = get_user_model().objects.create_user("user@test.com", "pass123")
         self.admin = get_user_model().objects.create_user(
             "admin@test.com", "pass123", is_staff=True
         )
@@ -34,7 +32,7 @@ class BorrowingViewSetTests(TestCase):
             author="Author",
             cover="HARD",
             inventory=5,
-            daily_fee=1.5
+            daily_fee=1.5,
         )
 
     def authenticate(self, user):
@@ -45,12 +43,12 @@ class BorrowingViewSetTests(TestCase):
         Borrowing.objects.create(
             user=self.user,
             book=self.book,
-            expected_return_date=now().date() + timedelta(days=5)
+            expected_return_date=now().date() + timedelta(days=5),
         )
         Borrowing.objects.create(
             user=self.admin,
             book=self.book,
-            expected_return_date=now().date() + timedelta(days=3)
+            expected_return_date=now().date() + timedelta(days=3),
         )
 
         res = self.client.get(BORROWINGS_URL)
@@ -59,8 +57,16 @@ class BorrowingViewSetTests(TestCase):
 
     def test_admin_can_see_all_borrowings(self):
         self.authenticate(self.admin)
-        Borrowing.objects.create(user=self.user, book=self.book, expected_return_date=now().date() + timedelta(days=1))
-        Borrowing.objects.create(user=self.admin, book=self.book, expected_return_date=now().date() + timedelta(days=2))
+        Borrowing.objects.create(
+            user=self.user,
+            book=self.book,
+            expected_return_date=now().date() + timedelta(days=1),
+        )
+        Borrowing.objects.create(
+            user=self.admin,
+            book=self.book,
+            expected_return_date=now().date() + timedelta(days=2),
+        )
 
         res = self.client.get(BORROWINGS_URL)
         self.assertEqual(res.status_code, status.HTTP_200_OK)
@@ -70,7 +76,7 @@ class BorrowingViewSetTests(TestCase):
         self.authenticate(self.user)
         payload = {
             "book": self.book.id,
-            "expected_return_date": (now().date() + timedelta(days=7))
+            "expected_return_date": (now().date() + timedelta(days=7)),
         }
         res = self.client.post(BORROWINGS_URL, payload)
 
@@ -83,7 +89,7 @@ class BorrowingViewSetTests(TestCase):
         borrowing = Borrowing.objects.create(
             user=self.user,
             book=self.book,
-            expected_return_date=now().date() + timedelta(days=3)
+            expected_return_date=now().date() + timedelta(days=3),
         )
         url = return_url(borrowing.id)
 
@@ -101,7 +107,7 @@ class BorrowingViewSetTests(TestCase):
             user=self.user,
             book=self.book,
             expected_return_date=now().date() + timedelta(days=3),
-            actual_return_date=now().date()
+            actual_return_date=now().date(),
         )
         url = return_url(borrowing.id)
 

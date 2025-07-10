@@ -1,6 +1,7 @@
 import django_filters
 from borrowings.models import Borrowing
 
+
 class BorrowingFilter(django_filters.FilterSet):
     is_active = django_filters.BooleanFilter(method="filter_is_active")
 

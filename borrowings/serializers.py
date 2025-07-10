@@ -2,6 +2,7 @@ from rest_framework import serializers
 from borrowings.models import Borrowing
 from books.serializers import BookDetailSerializer
 
+
 class BorrowingListSerializer(serializers.ModelSerializer):
     book = BookDetailSerializer(read_only=True)
 
@@ -13,9 +14,8 @@ class BorrowingListSerializer(serializers.ModelSerializer):
             "expected_return_date",
             "actual_return_date",
             "book",
-            "user"
+            "user",
         )
-
 
 
 class BorrowingCreateSerializer(serializers.ModelSerializer):
@@ -33,6 +33,5 @@ class BorrowingCreateSerializer(serializers.ModelSerializer):
         book.inventory -= 1
         book.save()
         return Borrowing.objects.create(
-            user=self.context["request"].user,
-            **validated_data
+            user=self.context["request"].user, **validated_data
         )

@@ -17,17 +17,16 @@ class BorrowingSerializerTests(TestCase):
             author="Author",
             cover="HARD",
             inventory=3,
-            daily_fee=1.50
+            daily_fee=1.50,
         )
 
     def test_create_borrowing_valid_data(self):
         data = {
             "expected_return_date": date.today() + timedelta(days=5),
-            "book": self.book.id
+            "book": self.book.id,
         }
         serializer = BorrowingCreateSerializer(
-            data=data,
-            context={"request": self._mock_request(self.user)}
+            data=data, context={"request": self._mock_request(self.user)}
         )
 
         self.assertTrue(serializer.is_valid(), serializer.errors)
@@ -42,11 +41,10 @@ class BorrowingSerializerTests(TestCase):
         self.book.save()
         data = {
             "expected_return_date": date.today() + timedelta(days=3),
-            "book": self.book.id
+            "book": self.book.id,
         }
         serializer = BorrowingCreateSerializer(
-            data=data,
-            context={"request": self._mock_request(self.user)}
+            data=data, context={"request": self._mock_request(self.user)}
         )
 
         self.assertFalse(serializer.is_valid())
@@ -59,7 +57,7 @@ class BorrowingSerializerTests(TestCase):
         borrowing = Borrowing.objects.create(
             user=self.user,
             book=self.book,
-            expected_return_date=date.today() + timedelta(days=7)
+            expected_return_date=date.today() + timedelta(days=7),
         )
         serializer = BorrowingListSerializer(borrowing)
         data = serializer.data
@@ -71,6 +69,7 @@ class BorrowingSerializerTests(TestCase):
     def _mock_request(self, user):
         class MockRequest:
             pass
+
         mock_request = MockRequest()
         mock_request.user = user
         return mock_request
